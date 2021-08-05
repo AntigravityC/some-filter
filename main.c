@@ -27,8 +27,8 @@ static void *filter_thread_function(void *arg)
         for(i = 0; i<len ;i++){
             scanf("%d",&deal_buf[i]);
 
-            //result = average_filter(filter_use,deal_buf[i],false);
-            result = mid_filter(filter_use,deal_buf[i],false);
+            result = average_filter(filter_use,deal_buf[i],false);
+            //result = mid_filter(filter_use,deal_buf[i],false);
             //result = lowpass_filter(deal_buf[i],0.8);
             //result = debounce(deal_buf[i]);
             //result = limit_filter(deal_buf[i],10,false);
@@ -43,6 +43,10 @@ static void *filter_thread_function(void *arg)
 int main(int argc,char *argv[])
 {
     pthread_t filter_thread;
+    if(argc < 2){
+        printf("Please enter a number to determine the number of data entering the filter each time\n");
+        exit(-1);
+    }
     int len =  atoi(argv[1]);
     pthread_create(&filter_thread,NULL,filter_thread_function,(void*)len);
     pthread_join(filter_thread,NULL);
